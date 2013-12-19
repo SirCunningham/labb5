@@ -48,6 +48,9 @@ public class Controller {
     public void openURL(String str, int type) {
         try {
             URL url = new URL(str);
+            //Kastar exception om vi inte kan connecta till en hemsida
+            URLConnection con = url.openConnection();
+            con.getInputStream();
             if (url != null) {
                 historyArray.addFirst(str);
                 view.getEditorPane().setPage(url);
@@ -81,7 +84,8 @@ public class Controller {
                 }
             }
         } catch (IOException ex) {
-            System.err.println("Det gick inte att läsa URL: " + str);
+            JOptionPane.showMessageDialog(view.getEditorPane(), 
+                    "URL:n är felaktig eller så är det problem med nätverket.");
             ex.printStackTrace();
         }
     }
