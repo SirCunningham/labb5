@@ -13,7 +13,7 @@ public class Controller {
     private View view;
     private LinkedList<URL> backArray;
     private LinkedList<URL> forwardArray;
-    private ArrayList<String> historyArray;
+    private LinkedList<String> historyArray;
     private URL currentURL;
     private JList list;
     private static final int TYPE_START = 0;
@@ -28,7 +28,7 @@ public class Controller {
     public Controller(final View view) {
         this.view = view;
         list = new JList();
-        historyArray = new ArrayList<String>();
+        historyArray = new LinkedList<String>();
         view.getTextField().addActionListener(new TextFieldListener());
         view.getBackButton().addActionListener(new BackButtonListener());
         view.getForwardButton().addActionListener(new ForwardButtonListener());
@@ -49,7 +49,7 @@ public class Controller {
         try {
             URL url = new URL(str);
             if (url != null) {
-                historyArray.add(str);
+                historyArray.addFirst(str);
                 view.getEditorPane().setPage(url);
                 view.getTextField().setText(url.toString());
                 switch (type) {
