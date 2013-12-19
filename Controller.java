@@ -11,7 +11,6 @@ import java.util.*;
 public class Controller {
 
     private View view;
-    private URL listUrl;
     private LinkedList<URL> listOfUrls;
     private int counter;
 
@@ -26,80 +25,77 @@ public class Controller {
         view.getBackButton().addActionListener(new BackButtonListener());
         view.getForwardButton().addActionListener(new ForwardButtonListener());
         view.getEditorPane().addHyperlinkListener(new HyperlinkListener() {
-
             public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    try {
-                        URL url = e.getURL();
-                        listOfUrls.addLast(url);
-                        counter++;
-                        view.getEditorPane().setPage(url);
-                    } catch (IOException ex) {
-                        System.out.println("Kunde inte öppna URL: " + e.getURL());
-                    }
+                    openURL(e.getURL().toString(), true);
                 }
             }
         });
+        openURL("https://duckduckgo.com", true);
     }
 
+    public void openURL(String str, boolean adder) {
+        try {
+            URL url = new URL(str);
+            if (url != null) {
+                view.getEditorPane().setPage(url);
+                view.getTextField().setText(url.toString());
+                if (adder) {
+                    listOfUrls.addLast(url);
+                    counter++;
+                }
+                updateButtons();
+            }
+        } catch (IOException ex) {
+            System.err.println("Det gick inte att läsa URL: "
+                    + str);
+            ex.printStackTrace();
+        }
+    }
+    
     public class TextFieldListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             JTextField field = (JTextField) e.getSource();
-            try {
-                URL url = new URL(field.getText());
-                if (url != null) {
-                    listOfUrls.addLast(url);
-                    counter++;
-                    view.getEditorPane().setPage(url);
-                }
-            } catch (IOException ex) {
-                System.err.println("Det gick inte att läsa URL: "
-                        + field.getText());
-                ex.printStackTrace();
-            }
-
+            openURL(field.getText(), true);
+        }
+    }
+    
+    public void updateButtons() {
+        if (counter == 0) {
+            view.getBackButton().setEnabled(false);
+        } else {
+            view.getBackButton().setEnabled(true);
+        }
+        if (counter >= listOfUrls.size() - 1) {
+            view.getForwardButton().setEnabled(false);
+        } else {
+            view.getForwardButton().setEnabled(true);
         }
     }
 
     public class BackButtonListener implements ActionListener {
-
         public void actionPerformed(ActionEvent e) {
             if (counter > 0) {
                 counter--;
-                try {
-                    view.getEditorPane().setPage(listOfUrls.get(counter));
-                } catch (IOException ex) {
-                    System.err.println("Det gick inte att läsa URL: "
-                            + listOfUrls.get(counter));
-                    ex.printStackTrace();
-                }
+                openURL(listOfUrls.get(counter).toString(), false);
             }
-
         }
     }
 
     public class ForwardButtonListener implements ActionListener {
-
         public void actionPerformed(ActionEvent e) {
             if (counter < listOfUrls.size() - 1) {
                 counter++;
-                try {
-                    view.getEditorPane().setPage(listOfUrls.get(counter));
-                } catch (IOException ex) {
-                    System.err.println("Det gick inte att läsa URL: "
-                            + listOfUrls.get(counter));
-                    ex.printStackTrace();
-                }
+                openURL(listOfUrls.get(counter).toString(), false);
             }
         }
     }
 
     public class HistoryListener implements ActionListener {
-
         public void actionPerformed(ActionEvent e) {
             HistoryButton button = (HistoryButton) e.getSource();
-
         }
     }
+
 }
