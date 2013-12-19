@@ -28,7 +28,6 @@ public class View {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        list = new JList();
         backButton = new BackForwardButton("back.png");
         forwardButton = new BackForwardButton("forward.png");
         historyButton = new HistoryButton();
@@ -51,7 +50,6 @@ public class View {
         frame.setVisible(true);
     }
     public void createHistoryDialog(JList list) {
-        this.list = list;
         JScrollPane scroller = new JScrollPane(list);
         scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -89,8 +87,6 @@ public class View {
     public JEditorPane getEditorPane() {
         return editorPane;
     }
-    public JList getList() {
-        return list;
-    }
 
 }
+
