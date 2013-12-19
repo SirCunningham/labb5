@@ -9,7 +9,6 @@ import java.io.*;
 
 public class Controller {
 
-    private String webAdress;
     private View view;
     private URL url;
 
@@ -40,9 +39,8 @@ public class Controller {
 
         public void actionPerformed(ActionEvent e) {
             JTextField field = (JTextField) e.getSource();
-            webAdress = field.getText();
             try {
-                url = new URL(webAdress);
+                url = new URL(field.getText());
                 if (url != null) {
                     view.getEditorPane().setPage(url);
                 }
@@ -64,6 +62,14 @@ public class Controller {
 
         public void actionPerformed(ActionEvent e) {
             BackForwardButton button = (BackForwardButton) e.getSource();
+        }
+    }
+
+    public class HistoryListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            HistoryButton button = (HistoryButton) e.getSource();
+
         }
     }
 }
