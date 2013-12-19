@@ -36,7 +36,7 @@ public class Controller {
                 }
             }
         });
-        openURL("https://duckduckgo.com", TYPE_START);
+        openURL("https://duckduckgo.com/lite", TYPE_START);
     }
 
     public void openURL(String str, int type) {
