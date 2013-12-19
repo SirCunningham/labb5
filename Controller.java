@@ -15,6 +15,7 @@ public class Controller {
     private LinkedList<URL> forwardArray;
     private ArrayList<String> historyArray;
     private URL currentURL;
+    private JList list;
     private static final int TYPE_START = 0;
     private static final int TYPE_NEW = 1;
     private static final int TYPE_BACKWARD = 2;
@@ -26,12 +27,13 @@ public class Controller {
 
     public Controller(final View view) {
         this.view = view;
+        list = new JList();
         historyArray = new ArrayList<String>();
         view.getTextField().addActionListener(new TextFieldListener());
         view.getBackButton().addActionListener(new BackButtonListener());
         view.getForwardButton().addActionListener(new ForwardButtonListener());
         view.getHistoryButton().addActionListener(new ButtonHistoryListener());
-        view.getList().addListSelectionListener(new ListHistoryListener());
+        list.addListSelectionListener(new ListHistoryListener());
         view.getEditorPane().addHyperlinkListener(new HyperlinkListener() {
 
             public void hyperlinkUpdate(HyperlinkEvent e) {
@@ -111,7 +113,7 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             String[] strArr = new String[historyArray.size()];
             strArr = historyArray.toArray(strArr);
-            JList list = new JList(strArr);
+            list.setListData(strArr);
             view.createHistoryDialog(list);
  
             
@@ -122,7 +124,7 @@ public class Controller {
         public void valueChanged(ListSelectionEvent e) {
             //Utan if-satsa => vi får event två gånger
             if (!e.getValueIsAdjusting()) {
-                String selection = (String) view.getList().getSelectedValue();
+                String selection = (String) list.getSelectedValue();
                 openURL(selection, TYPE_BACKWARD);
             }
         }
