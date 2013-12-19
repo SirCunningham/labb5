@@ -11,8 +11,12 @@ import java.util.*;
 public class Controller {
 
     private View view;
-    private LinkedList<URL> listOfUrls;
-    private int counter;
+    private LinkedList<URL> backArray;
+    private LinkedList<URL> forwardArray;
+    
+    private static final int TYPE_NEW = 1;
+    private static final int TYPE_BACKWARD = 2;
+    private static final int TYPE_FORWARD = 3;
 
     public static void main(String[] args) {
         new Controller(new View());
@@ -20,75 +24,72 @@ public class Controller {
 
     public Controller(final View view) {
         this.view = view;
-        listOfUrls = new LinkedList<URL>();
+        backArray = new LinkedList<URL>();
+        forwardArray = new LinkedList<URL>();
         view.getTextField().addActionListener(new TextFieldListener());
         view.getBackButton().addActionListener(new BackButtonListener());
         view.getForwardButton().addActionListener(new ForwardButtonListener());
         view.getEditorPane().addHyperlinkListener(new HyperlinkListener() {
             public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    openURL(e.getURL().toString(), true);
+                    openURL(e.getURL().toString(), TYPE_NEW);
                 }
             }
         });
-        openURL("https://duckduckgo.com", true);
+        openURL("https://duckduckgo.com", TYPE_NEW);
     }
 
-    public void openURL(String str, boolean adder) {
+    public void openURL(String str, int type) {
         try {
             URL url = new URL(str);
             if (url != null) {
                 view.getEditorPane().setPage(url);
                 view.getTextField().setText(url.toString());
-                if (adder) {
-                    listOfUrls.addLast(url);
-                    counter++;
+                switch (type) {
+                    case TYPE_NEW:
+                        backArray.addLast(url);
+                        forwardArray = new LinkedList<URL>();
+                        break;
+                    case TYPE_BACKWARD:
+                        forwardArray.addFirst(url);
+                        break;
+                    case TYPE_FORWARD:
+                        backArray.addLast(url);
+                        break;
                 }
-                updateButtons();
+                if (backArray.size() == 0) {
+                    view.getBackButton().setEnabled(false);
+                } else {
+                    view.getBackButton().setEnabled(true);
+                }
+                if (forwardArray.size() == 0) {
+                    view.getForwardButton().setEnabled(false);
+                } else {
+                    view.getForwardButton().setEnabled(true);
+                }
             }
         } catch (IOException ex) {
-            System.err.println("Det gick inte att läsa URL: "
-                    + str);
+            System.err.println("Det gick inte att läsa URL: " + str);
             ex.printStackTrace();
         }
     }
     
     public class TextFieldListener implements ActionListener {
-
         public void actionPerformed(ActionEvent e) {
             JTextField field = (JTextField) e.getSource();
-            openURL(field.getText(), true);
-        }
-    }
-    
-    public void updateButtons() {
-        if (counter == 0) {
-            view.getBackButton().setEnabled(false);
-        } else {
-            view.getBackButton().setEnabled(true);
-        }
-        if (counter >= listOfUrls.size() - 1) {
-            view.getForwardButton().setEnabled(false);
-        } else {
-            view.getForwardButton().setEnabled(true);
+            openURL(field.getText(), TYPE_NEW);
         }
     }
 
     public class BackButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if (counter > 0) {
-                counter--;
-                openURL(listOfUrls.get(counter).toString(), false);
-            }
+            openURL(backArray.removeLast().toString(), TYPE_BACKWARD);
         }
     }
 
     public class ForwardButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if (counter < listOfUrls.size() - 1) {
-                counter++;
-                openURL(listOfUrls.get(counter).toString(), false);
-            }
+            openURL(forwardArray.removeFirst().toString(), TYPE_FORWARD);
         }
     }
 
