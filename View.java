@@ -24,8 +24,8 @@ public class View {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        backButton = new BackForwardButton("arrow_left.png");
-        forwardButton = new BackForwardButton("arrow_right.png");
+        backButton = new BackForwardButton("back.png");
+        forwardButton = new BackForwardButton("forward.png");
         historyButton = new HistoryButton();
         field = new JTextField();
         editorPane = new JEditorPane();
