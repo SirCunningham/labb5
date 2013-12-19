@@ -13,8 +13,8 @@ public class Controller {
     private View view;
     private LinkedList<URL> backArray;
     private LinkedList<URL> forwardArray;
+    private ArrayList<String> historyArray;
     private URL currentURL;
-    
     private static final int TYPE_START = 0;
     private static final int TYPE_NEW = 1;
     private static final int TYPE_BACKWARD = 2;
@@ -26,10 +26,14 @@ public class Controller {
 
     public Controller(final View view) {
         this.view = view;
+        historyArray = new ArrayList<String>();
         view.getTextField().addActionListener(new TextFieldListener());
         view.getBackButton().addActionListener(new BackButtonListener());
         view.getForwardButton().addActionListener(new ForwardButtonListener());
+        view.getHistoryButton().addActionListener(new ButtonHistoryListener());
+        view.getList().addListSelectionListener(new ListHistoryListener());
         view.getEditorPane().addHyperlinkListener(new HyperlinkListener() {
+
             public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     openURL(e.getURL().toString(), TYPE_NEW);
@@ -43,6 +47,7 @@ public class Controller {
         try {
             URL url = new URL(str);
             if (url != null) {
+                historyArray.add(str);
                 view.getEditorPane().setPage(url);
                 view.getTextField().setText(url.toString());
                 switch (type) {
@@ -80,6 +85,7 @@ public class Controller {
     }
 
     public class TextFieldListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
             JTextField field = (JTextField) e.getSource();
             openURL(field.getText(), TYPE_NEW);
@@ -87,21 +93,39 @@ public class Controller {
     }
 
     public class BackButtonListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
             openURL(backArray.removeLast().toString(), TYPE_BACKWARD);
         }
     }
 
     public class ForwardButtonListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
             openURL(forwardArray.removeFirst().toString(), TYPE_FORWARD);
         }
     }
 
-    public class HistoryListener implements ActionListener {
+    public class ButtonHistoryListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
-            HistoryButton button = (HistoryButton) e.getSource();
+            String[] strArr = new String[historyArray.size()];
+            strArr = historyArray.toArray(strArr);
+            JList list = new JList(strArr);
+            view.createHistoryDialog(list);
+ 
+            
         }
     }
-
+    
+    public class ListHistoryListener implements ListSelectionListener {
+        public void valueChanged(ListSelectionEvent e) {
+            //Utan if-satsa => vi får event två gånger
+            if (!e.getValueIsAdjusting()) {
+                String selection = (String) view.getList().getSelectedValue();
+                openURL(selection, TYPE_BACKWARD);
+            }
+        }
+    }
+     
 }
