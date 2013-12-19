@@ -1,10 +1,11 @@
-
+package labb5;
+import java.awt.Image;
 import javax.swing.*;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-public class BackForwardButton extends Button {
+public class BackForwardButton extends JButton {
 
     BufferedImage buttonIcon;
 
