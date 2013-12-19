@@ -13,7 +13,9 @@ public class Controller {
     private View view;
     private LinkedList<URL> backArray;
     private LinkedList<URL> forwardArray;
+    private URL currentURL;
     
+    private static final int TYPE_START = 0;
     private static final int TYPE_NEW = 1;
     private static final int TYPE_BACKWARD = 2;
     private static final int TYPE_FORWARD = 3;
@@ -24,8 +26,6 @@ public class Controller {
 
     public Controller(final View view) {
         this.view = view;
-        backArray = new LinkedList<URL>();
-        forwardArray = new LinkedList<URL>();
         view.getTextField().addActionListener(new TextFieldListener());
         view.getBackButton().addActionListener(new BackButtonListener());
         view.getForwardButton().addActionListener(new ForwardButtonListener());
@@ -36,7 +36,7 @@ public class Controller {
                 }
             }
         });
-        openURL("https://duckduckgo.com", TYPE_NEW);
+        openURL("https://duckduckgo.com", TYPE_START);
     }
 
     public void openURL(String str, int type) {
@@ -46,17 +46,22 @@ public class Controller {
                 view.getEditorPane().setPage(url);
                 view.getTextField().setText(url.toString());
                 switch (type) {
+                    case TYPE_START:
+                        backArray = new LinkedList<URL>();
+                        forwardArray = new LinkedList<URL>();
+                        break;
                     case TYPE_NEW:
-                        backArray.addLast(url);
+                        backArray.addLast(currentURL);
                         forwardArray = new LinkedList<URL>();
                         break;
                     case TYPE_BACKWARD:
-                        forwardArray.addFirst(url);
+                        forwardArray.addFirst(currentURL);
                         break;
                     case TYPE_FORWARD:
-                        backArray.addLast(url);
+                        backArray.addLast(currentURL);
                         break;
                 }
+                currentURL = url;
                 if (backArray.size() == 0) {
                     view.getBackButton().setEnabled(false);
                 } else {
@@ -73,7 +78,7 @@ public class Controller {
             ex.printStackTrace();
         }
     }
-    
+
     public class TextFieldListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             JTextField field = (JTextField) e.getSource();
