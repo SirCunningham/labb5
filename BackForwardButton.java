@@ -1,5 +1,5 @@
 package labb5;
-import java.awt.Image;
+
 import javax.swing.*;
 import java.awt.image.*;
 import java.io.*;
@@ -13,7 +13,7 @@ public class BackForwardButton extends JButton {
         try {
             buttonIcon = ImageIO.read(new File(pathToIcon));
         } catch (IOException e) {
-            System.out.println("Filen: " + pathToIcon + " kunde inte hittas.");
+            System.err.println("Filen: " + pathToIcon + " kunde inte hittas.");
             e.printStackTrace();
         }
         this.setIcon(new ImageIcon(buttonIcon));
