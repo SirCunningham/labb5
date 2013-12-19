@@ -8,7 +8,7 @@ public class BackForwardButton extends JButton{
     private String name;
     
     public BackForwardButton(String name) {
-        this.name=name;
+        this.name = name;
         setText(name);
     }
 }
