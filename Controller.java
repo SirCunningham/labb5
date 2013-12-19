@@ -125,7 +125,7 @@ public class Controller {
             //Utan if-satsa => vi får event två gånger
             if (!e.getValueIsAdjusting()) {
                 String selection = (String) list.getSelectedValue();
-                openURL(selection, TYPE_BACKWARD);
+                openURL(selection, TYPE_FORWARD);
             }
         }
     }
