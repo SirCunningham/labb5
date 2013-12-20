@@ -10,9 +10,9 @@ public class View {
     private final JPanel panel;
     private final BackForwardButton backButton;
     private final BackForwardButton forwardButton;
+    private final JButton historyButton;
     private final JEditorPane editorPane;
     private final JScrollPane editorScrollPane;
-    private final HistoryButton historyButton;
     private JOptionPane historyPane;
     private JDialog historyDialog;
     private JFrame historyFrame;
@@ -28,7 +28,9 @@ public class View {
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         backButton = new BackForwardButton("back.png");
         forwardButton = new BackForwardButton("forward.png");
-        historyButton = new HistoryButton();
+        historyButton = new JButton();
+        historyButton.setFont(historyButton.getFont().deriveFont(13.0f));
+        historyButton.setText("Historik");
         field = new JTextField();
         editorPane = new JEditorPane();
         editorPane.setEditable(false);
@@ -74,7 +76,7 @@ public class View {
         return forwardButton;
     }
 
-    public HistoryButton getHistoryButton() {
+    public JButton getHistoryButton() {
         return historyButton;
     }
 
