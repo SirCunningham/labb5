@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class View {
 
-    private final navigationButton backButton;
-    private final navigationButton forwardButton;
+    private final NavigationButton backButton;
+    private final NavigationButton forwardButton;
     private final JButton historyButton;
     private final JTextField field;
     private final JEditorPane editorPane;
@@ -17,8 +17,8 @@ public class View {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        backButton = new navigationButton("back.png");
-        forwardButton = new navigationButton("forward.png");
+        backButton = new NavigationButton("back.png");
+        forwardButton = new NavigationButton("forward.png");
         historyButton = new JButton();
         historyButton.setText("Historik");
         field = new JTextField();
@@ -51,11 +51,11 @@ public class View {
         historyFrame.setVisible(true);
     }
 
-    public navigationButton getBackButton() {
+    public NavigationButton getBackButton() {
         return backButton;
     }
 
-    public navigationButton getForwardButton() {
+    public NavigationButton getForwardButton() {
         return forwardButton;
     }
 
@@ -78,5 +78,4 @@ public class View {
     public static void main(String[] args) {
         new View();
     }
-
 }
