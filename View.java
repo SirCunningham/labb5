@@ -57,10 +57,11 @@ public class View {
         historyFrame.setVisible(true);
         historyFrame.pack();
     }
-    
+
     public JOptionPane getHistoryPane() {
         return historyPane;
     }
+
     public JDialog getHistoryDialog() {
         return historyDialog;
     }
