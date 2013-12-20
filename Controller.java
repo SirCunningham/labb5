@@ -24,13 +24,12 @@ public class Controller {
         this.view = view;
         list = new JList();
         historyArray = new LinkedList<String>();
-        view.getTextField().addActionListener(new TextFieldListener());
         view.getBackButton().addActionListener(new BackButtonListener());
         view.getForwardButton().addActionListener(new ForwardButtonListener());
         view.getHistoryButton().addActionListener(new ButtonHistoryListener());
+        view.getTextField().addActionListener(new TextFieldListener());
         list.addListSelectionListener(new ListHistoryListener());
         view.getEditorPane().addHyperlinkListener(new HyperlinkListener() {
-
             public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     openURL(e.getURL().toString(), TYPE_NEW);
