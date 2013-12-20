@@ -12,4 +12,5 @@ public class HistoryButton extends JButton {
     public HistoryButton() {
         this("Historik");
     }
+
 }
