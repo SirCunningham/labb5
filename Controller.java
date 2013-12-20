@@ -7,6 +7,8 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
+//Bugg: Skriv fel adress, backa i historiken, tryck på historikknappen...
+
 public class Controller {
 
     private final View view;
