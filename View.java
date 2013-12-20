@@ -17,10 +17,6 @@ public class View {
     private JDialog historyDialog;
     private JFrame historyFrame;
 
-    public static void main(String[] args) {
-        new View();
-    }
-
     public View() {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,6 +44,7 @@ public class View {
         frame.pack();
         frame.setVisible(true);
     }
+
     public void createHistoryDialog(JList list) {
         JScrollPane scroller = new JScrollPane(list);
         scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -86,6 +83,10 @@ public class View {
 
     public JEditorPane getEditorPane() {
         return editorPane;
+    }
+
+    public static void main(String[] args) {
+        new View();
     }
 
 }
