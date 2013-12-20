@@ -20,10 +20,6 @@ public class Controller {
     private static final int TYPE_BACKWARD = 2;
     private static final int TYPE_FORWARD = 3;
 
-    public static void main(String[] args) {
-        new Controller(new View());
-    }
-
     public Controller(final View view) {
         this.view = view;
         list = new JList();
@@ -90,7 +86,6 @@ public class Controller {
     }
 
     public class TextFieldListener implements ActionListener {
-
         public void actionPerformed(ActionEvent e) {
             JTextField field = (JTextField) e.getSource();
             openURL(field.getText(), TYPE_NEW);
@@ -98,28 +93,23 @@ public class Controller {
     }
 
     public class BackButtonListener implements ActionListener {
-
         public void actionPerformed(ActionEvent e) {
             openURL(backArray.removeLast().toString(), TYPE_BACKWARD);
         }
     }
 
     public class ForwardButtonListener implements ActionListener {
-
         public void actionPerformed(ActionEvent e) {
             openURL(forwardArray.removeFirst().toString(), TYPE_FORWARD);
         }
     }
 
     public class ButtonHistoryListener implements ActionListener {
-
         public void actionPerformed(ActionEvent e) {
             String[] strArr = new String[historyArray.size()];
             strArr = historyArray.toArray(strArr);
             list.setListData(strArr);
             view.createHistoryDialog(list);
- 
-            
         }
     }
     
@@ -132,5 +122,9 @@ public class Controller {
             }
         }
     }
-     
+
+    public static void main(String[] args) {
+        new Controller(new View());
+    }
+
 }
