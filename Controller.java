@@ -22,13 +22,12 @@ public class Controller {
 
     public Controller(final View view) {
         this.view = view;
-        list = new JList();
-        historyArray = new LinkedList<String>();
         view.getBackButton().addActionListener(new BackButtonListener());
         view.getForwardButton().addActionListener(new ForwardButtonListener());
-        view.getHistoryButton().addActionListener(new ButtonHistoryListener());
+        view.getHistoryButton().addActionListener(new HistoryButtonListener());
         view.getTextField().addActionListener(new TextFieldListener());
-        list.addListSelectionListener(new ListHistoryListener());
+        list = new JList();
+        list.addListSelectionListener(new HistoryListListener());
         view.getEditorPane().addHyperlinkListener(new HyperlinkListener() {
             public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -36,58 +35,49 @@ public class Controller {
                 }
             }
         });
+        historyArray = new LinkedList<String>();
         openURL("https://duckduckgo.com/lite", TYPE_START);
     }
 
     public void openURL(String str, int type) {
         try {
             URL url = new URL(str);
-            //Kastar exception om vi inte kan connecta till en hemsida
-            URLConnection con = url.openConnection();
-            con.getInputStream();
-            if (url != null) {
-                historyArray.addFirst(str);
-                view.getEditorPane().setPage(url);
-                view.getTextField().setText(url.toString());
-                switch (type) {
-                    case TYPE_START:
-                        backArray = new LinkedList<URL>();
-                        forwardArray = new LinkedList<URL>();
-                        break;
-                    case TYPE_NEW:
-                        backArray.addLast(currentURL);
-                        forwardArray = new LinkedList<URL>();
-                        break;
-                    case TYPE_BACKWARD:
-                        forwardArray.addFirst(currentURL);
-                        break;
-                    case TYPE_FORWARD:
-                        backArray.addLast(currentURL);
-                        break;
-                }
-                currentURL = url;
-                if (backArray.size() == 0) {
-                    view.getBackButton().setEnabled(false);
-                } else {
-                    view.getBackButton().setEnabled(true);
-                }
-                if (forwardArray.size() == 0) {
-                    view.getForwardButton().setEnabled(false);
-                } else {
-                    view.getForwardButton().setEnabled(true);
-                }
+            //Kastar exception om vi inte kan ansluta till sidan
+            url.openConnection().getInputStream();
+            view.getEditorPane().setPage(url);
+            view.getTextField().setText(url.toString());
+            switch (type) {
+                case TYPE_START:
+                    backArray = new LinkedList<URL>();
+                    forwardArray = new LinkedList<URL>();
+                    break;
+                case TYPE_NEW:
+                    backArray.addLast(currentURL);
+                    forwardArray = new LinkedList<URL>();
+                    break;
+                case TYPE_BACKWARD:
+                    forwardArray.addFirst(currentURL);
+                    break;
+                case TYPE_FORWARD:
+                    backArray.addLast(currentURL);
+                    break;
             }
+            currentURL = url;
+            if (backArray.size() == 0) {
+                view.getBackButton().setEnabled(false);
+            } else {
+                view.getBackButton().setEnabled(true);
+            }
+            if (forwardArray.size() == 0) {
+                view.getForwardButton().setEnabled(false);
+            } else {
+                view.getForwardButton().setEnabled(true);
+            }
+            historyArray.addFirst(str);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(view.getEditorPane(), 
                     "URL:n är felaktig eller så är det problem med nätverket.");
             ex.printStackTrace();
-        }
-    }
-
-    public class TextFieldListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            JTextField field = (JTextField) e.getSource();
-            openURL(field.getText(), TYPE_NEW);
         }
     }
 
@@ -103,7 +93,7 @@ public class Controller {
         }
     }
 
-    public class ButtonHistoryListener implements ActionListener {
+    public class HistoryButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String[] strArr = new String[historyArray.size()];
             strArr = historyArray.toArray(strArr);
@@ -111,8 +101,15 @@ public class Controller {
             view.createHistoryDialog(list);
         }
     }
-    
-    public class ListHistoryListener implements ListSelectionListener {
+
+    public class TextFieldListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            JTextField field = (JTextField) e.getSource();
+            openURL(field.getText(), TYPE_NEW);
+        }
+    }
+
+    public class HistoryListListener implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent e) {
             //Utan if-satsa => vi får event två gånger
             if (!e.getValueIsAdjusting()) {
