@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class View {
 
-    private final BackForwardButton backButton;
-    private final BackForwardButton forwardButton;
+    private final navigationButton backButton;
+    private final navigationButton forwardButton;
     private final JButton historyButton;
     private final JTextField field;
     private final JEditorPane editorPane;
@@ -17,8 +17,8 @@ public class View {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        backButton = new BackForwardButton("back.png");
-        forwardButton = new BackForwardButton("forward.png");
+        backButton = new navigationButton("back.png");
+        forwardButton = new navigationButton("forward.png");
         historyButton = new JButton();
         historyButton.setText("Historik");
         field = new JTextField();
@@ -51,11 +51,11 @@ public class View {
         historyFrame.setVisible(true);
     }
 
-    public BackForwardButton getBackButton() {
+    public navigationButton getBackButton() {
         return backButton;
     }
 
-    public BackForwardButton getForwardButton() {
+    public navigationButton getForwardButton() {
         return forwardButton;
     }
 
