@@ -8,7 +8,6 @@ import java.io.*;
 import java.util.*;
 
 //Bugg: Skriv fel adress, backa i historiken, tryck på historikknappen...
-
 public class Controller {
 
     private final View view;
@@ -31,13 +30,14 @@ public class Controller {
         list = new JList();
         list.addListSelectionListener(new HistoryListListener());
         view.getEditorPane().addHyperlinkListener(new HyperlinkListener() {
+
             public void hyperlinkUpdate(HyperlinkEvent e) { //Varför anonym nu???
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     openURL(e.getURL().toString(), TYPE_NEW);
                 }
             }
         });
-        historyArray = new LinkedList<>();
+        historyArray = new LinkedList<String>();
         openURL("https://duckduckgo.com/lite", TYPE_START);
     }
 
@@ -50,12 +50,12 @@ public class Controller {
             view.getTextField().setText(url.toString());
             switch (type) {
                 case TYPE_START:
-                    backArray = new LinkedList<>();
-                    forwardArray = new LinkedList<>();
+                    backArray = new LinkedList<URL>();
+                    forwardArray = new LinkedList<URL>();
                     break;
                 case TYPE_NEW:
                     backArray.addLast(currentURL);
-                    forwardArray = new LinkedList<>();
+                    forwardArray = new LinkedList<URL>();
                     break;
                 case TYPE_BACKWARD:
                     forwardArray.addFirst(currentURL);
@@ -77,25 +77,28 @@ public class Controller {
             }
             historyArray.addFirst(str);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(view.getEditorPane(), 
+            JOptionPane.showMessageDialog(view.getEditorPane(),
                     "URL:n är felaktig eller så är det problem med nätverket.");
             ex.printStackTrace();
         }
     }
 
     public class BackButtonListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
             openURL(backArray.removeLast().toString(), TYPE_BACKWARD);
         }
     }
 
     public class ForwardButtonListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
             openURL(forwardArray.removeFirst().toString(), TYPE_FORWARD);
         }
     }
 
     public class HistoryButtonListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
             String[] strArr = new String[historyArray.size()];
             strArr = historyArray.toArray(strArr);
@@ -105,6 +108,7 @@ public class Controller {
     }
 
     public class TextFieldListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
             JTextField field = (JTextField) e.getSource();
             openURL(field.getText(), TYPE_NEW);
@@ -112,6 +116,7 @@ public class Controller {
     }
 
     public class HistoryListListener implements ListSelectionListener {
+
         public void valueChanged(ListSelectionEvent e) {
             //Utan if-satsa => vi får event två gånger
             if (!e.getValueIsAdjusting()) {
@@ -124,5 +129,5 @@ public class Controller {
     public static void main(String[] args) {
         new Controller(new View());
     }
-
 }
+
