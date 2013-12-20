@@ -9,12 +9,12 @@ import java.util.*;
 
 public class Controller {
 
-    private View view;
+    private final View view;
     private LinkedList<URL> backArray;
     private LinkedList<URL> forwardArray;
-    private LinkedList<String> historyArray;
     private URL currentURL;
-    private JList list;
+    private final LinkedList<String> historyArray;
+    private final JList list;
     private static final int TYPE_START = 0;
     private static final int TYPE_NEW = 1;
     private static final int TYPE_BACKWARD = 2;
