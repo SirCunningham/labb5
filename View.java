@@ -11,6 +11,7 @@ public class View {
     private final JTextField field;
     private final JEditorPane editorPane;
     private JDialog historyDialog;
+    private JFrame historyFrame;
 
     public View() {
         JFrame frame = new JFrame();
@@ -26,8 +27,7 @@ public class View {
         editorPane.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(editorPane);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        scrollPane.setPreferredSize(screenSize);
+        scrollPane.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         panel.add(backButton);
         panel.add(forwardButton);
@@ -44,11 +44,14 @@ public class View {
         scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         list.setVisibleRowCount(20);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JFrame historyFrame = new JFrame("Historik");
+        historyFrame = new JFrame("Historik");
         historyFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         historyFrame.add(scroller);
         historyFrame.pack();
         historyFrame.setVisible(true);
+    }
+    public JFrame getHistoryFrame() {
+        return historyFrame;
     }
 
     public NavigationButton getBackButton() {
