@@ -3,7 +3,6 @@ package labb5;
 import javax.swing.*;
 import java.net.*;
 import javax.swing.event.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
