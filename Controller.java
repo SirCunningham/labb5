@@ -29,13 +29,13 @@ public class Controller {
         list = new JList();
         list.addListSelectionListener(new HistoryListListener());
         view.getEditorPane().addHyperlinkListener(new HyperlinkListener() {
-            public void hyperlinkUpdate(HyperlinkEvent e) {
+            public void hyperlinkUpdate(HyperlinkEvent e) { //Varför anonym nu???
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     openURL(e.getURL().toString(), TYPE_NEW);
                 }
             }
         });
-        historyArray = new LinkedList<String>();
+        historyArray = new LinkedList<>();
         openURL("https://duckduckgo.com/lite", TYPE_START);
     }
 
@@ -48,12 +48,12 @@ public class Controller {
             view.getTextField().setText(url.toString());
             switch (type) {
                 case TYPE_START:
-                    backArray = new LinkedList<URL>();
-                    forwardArray = new LinkedList<URL>();
+                    backArray = new LinkedList<>();
+                    forwardArray = new LinkedList<>();
                     break;
                 case TYPE_NEW:
                     backArray.addLast(currentURL);
-                    forwardArray = new LinkedList<URL>();
+                    forwardArray = new LinkedList<>();
                     break;
                 case TYPE_BACKWARD:
                     forwardArray.addFirst(currentURL);
