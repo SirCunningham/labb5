@@ -29,56 +29,54 @@ public class Controller {
         view.getTextField().addActionListener(new TextFieldListener());
         list = new JList();
         list.addListSelectionListener(new HistoryListListener());
-        view.getEditorPane().addHyperlinkListener(new HyperlinkListener() {
-
-            public void hyperlinkUpdate(HyperlinkEvent e) { //Varför anonym nu???
-                if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    openURL(e.getURL().toString(), TYPE_NEW);
-                }
-            }
-        });
+        view.getEditorPane().addHyperlinkListener(new LinkListener());
         historyArray = new LinkedList<String>();
         openURL("https://duckduckgo.com/lite", TYPE_START);
     }
 
     public void openURL(String str, int type) {
-        historyArray.addFirst(str);
         try {
-            URL url = new URL(str);
-            //Kastar exception om vi inte kan ansluta till sidan
-            url.openConnection().getInputStream();
-            view.getEditorPane().setPage(url);
-            view.getTextField().setText(url.toString());
-            switch (type) {
-                case TYPE_START:
-                    backArray = new LinkedList<URL>();
-                    forwardArray = new LinkedList<URL>();
-                    break;
-                case TYPE_NEW:
-                    backArray.addLast(currentURL);
-                    forwardArray = new LinkedList<URL>();
-                    break;
-                case TYPE_BACKWARD:
-                    forwardArray.addFirst(currentURL);
-                    break;
-                case TYPE_FORWARD:
-                    backArray.addLast(currentURL);
-                    break;
+            if (str != null) {
+                URL url = new URL(str);
+                //Kastar exception om vi inte kan ansluta till sidan
+                url.openConnection().getInputStream();
+                view.getEditorPane().setPage(url);
+                view.getTextField().setText(url.toString());
+                switch (type) {
+                    case TYPE_START:
+                        backArray = new LinkedList<URL>();
+                        forwardArray = new LinkedList<URL>();
+                        break;
+                    case TYPE_NEW:
+                        backArray.addLast(currentURL);
+                        forwardArray = new LinkedList<URL>();
+                        break;
+                    case TYPE_BACKWARD:
+                        forwardArray.addFirst(currentURL);
+                        break;
+                    case TYPE_FORWARD:
+                        backArray.addLast(currentURL);
+                        break;
+                }
+                currentURL = url;
+                if (backArray.size() == 0) {
+                    view.getBackButton().setEnabled(false);
+                } else {
+                    view.getBackButton().setEnabled(true);
+                }
+                if (forwardArray.size() == 0) {
+                    view.getForwardButton().setEnabled(false);
+                } else {
+                    view.getForwardButton().setEnabled(true);
+                }
+                if (historyArray.isEmpty()) {
+                    historyArray.addFirst(str);
+                } else if (!historyArray.getFirst().equals(str)) {
+                    historyArray.addFirst(str);
+                }
             }
-            currentURL = url;
-            if (backArray.size() == 0) {
-                view.getBackButton().setEnabled(false);
-            } else {
-                view.getBackButton().setEnabled(true);
-            }
-            if (forwardArray.size() == 0) {
-                view.getForwardButton().setEnabled(false);
-            } else {
-                view.getForwardButton().setEnabled(true);
-            }
-
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(view.getEditorPane(),
+            JOptionPane.showMessageDialog(view.getHistoryFrame(),
                     "URL:n är felaktig eller så är det problem med nätverket.");
             ex.printStackTrace();
         }
@@ -101,9 +99,7 @@ public class Controller {
     public class HistoryButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            String[] strArr = new String[historyArray.size()];
-            strArr = historyArray.toArray(strArr);
-            list.setListData(strArr);
+            list.setListData(historyArray.toArray(new String[historyArray.size()]));
             view.createHistoryDialog(list);
         }
     }
@@ -114,6 +110,7 @@ public class Controller {
             JTextField field = (JTextField) e.getSource();
             openURL(field.getText(), TYPE_NEW);
         }
+    
     }
 
     public class HistoryListListener implements ListSelectionListener {
@@ -123,13 +120,23 @@ public class Controller {
             if (!e.getValueIsAdjusting()) {
                 String selection = (String) list.getSelectedValue();
                 openURL(selection, TYPE_FORWARD);
+                view.getHistoryFrame().dispose();
             }
         }
     }
 
+    public class LinkListener implements HyperlinkListener {
+
+        public void hyperlinkUpdate(HyperlinkEvent e) {
+            if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                openURL(e.getURL().toString(), TYPE_NEW);
+            }
+        }
+    
+    }
+
     public static void main(String[] args) {
         new Controller(new View());
+    
     }
 }
-
-
