@@ -2,19 +2,17 @@ package labb5;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
 
 public class View {
 
-    private JFrame frame;
-    private JTextField field;
-    private JPanel panel;
-    private JList list;
-    private BackForwardButton backButton;
-    private BackForwardButton forwardButton;
+    private final JFrame frame;
+    private final JTextField field;
+    private final JPanel panel;
+    private final BackForwardButton backButton;
+    private final BackForwardButton forwardButton;
     private final JEditorPane editorPane;
-    private JScrollPane editorScrollPane;
-    private HistoryButton historyButton;
+    private final JScrollPane editorScrollPane;
+    private final HistoryButton historyButton;
     private JOptionPane historyPane;
     private JDialog historyDialog;
     private JFrame historyFrame;
@@ -38,7 +36,6 @@ public class View {
         editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         editorScrollPane.setPreferredSize(screenSize);
-
 
         panel.add(backButton);
         panel.add(forwardButton);
@@ -76,6 +73,7 @@ public class View {
     public BackForwardButton getForwardButton() {
         return forwardButton;
     }
+
     public HistoryButton getHistoryButton() {
         return historyButton;
     }
@@ -89,4 +87,3 @@ public class View {
     }
 
 }
-
