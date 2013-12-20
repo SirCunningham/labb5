@@ -50,9 +50,6 @@ public class View {
         historyFrame.pack();
         historyFrame.setVisible(true);
     }
-    public JFrame getHistoryFrame() {
-        return historyFrame;
-    }
 
     public NavigationButton getBackButton() {
         return backButton;
@@ -78,7 +75,12 @@ public class View {
         return historyDialog;
     }
 
+    public JFrame getHistoryFrame() {
+        return historyFrame;
+    }
+
     public static void main(String[] args) {
         new View();
     }
+
 }
