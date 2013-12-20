@@ -24,17 +24,17 @@ public class View {
         field = new JTextField();
         editorPane = new JEditorPane();
         editorPane.setEditable(false);
-        JScrollPane editorScrollPane = new JScrollPane(editorPane);
-        editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        JScrollPane scrollPane = new JScrollPane(editorPane);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        editorScrollPane.setPreferredSize(screenSize);
+        scrollPane.setPreferredSize(screenSize);
 
         panel.add(backButton);
         panel.add(forwardButton);
         panel.add(historyButton);
         panel.add(field);
         frame.add(BorderLayout.NORTH, panel);
-        frame.add(BorderLayout.CENTER, editorScrollPane);
+        frame.add(BorderLayout.CENTER, scrollPane);
         frame.pack();
         frame.setVisible(true);
     }
