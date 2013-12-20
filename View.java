@@ -42,14 +42,13 @@ public class View {
     public void createHistoryDialog(JList list) {
         JScrollPane scroller = new JScrollPane(list);
         scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
         list.setVisibleRowCount(20);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JFrame historyFrame = new JFrame("Historik");
         historyFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         historyFrame.add(scroller);
-        historyFrame.setVisible(true);
         historyFrame.pack();
+        historyFrame.setVisible(true);
     }
 
     public BackForwardButton getBackButton() {
