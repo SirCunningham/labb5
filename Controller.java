@@ -42,6 +42,7 @@ public class Controller {
     }
 
     public void openURL(String str, int type) {
+        historyArray.addFirst(str);
         try {
             URL url = new URL(str);
             //Kastar exception om vi inte kan ansluta till sidan
@@ -75,7 +76,7 @@ public class Controller {
             } else {
                 view.getForwardButton().setEnabled(true);
             }
-            historyArray.addFirst(str);
+
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(view.getEditorPane(),
                     "URL:n är felaktig eller så är det problem med nätverket.");
@@ -130,4 +131,5 @@ public class Controller {
         new Controller(new View());
     }
 }
+
 
