@@ -5,32 +5,26 @@ import java.awt.*;
 
 public class View {
 
-    private final JFrame frame;
-    private final JTextField field;
-    private final JPanel panel;
     private final BackForwardButton backButton;
     private final BackForwardButton forwardButton;
     private final JButton historyButton;
+    private final JTextField field;
     private final JEditorPane editorPane;
-    private final JScrollPane editorScrollPane;
-    private JOptionPane historyPane;
     private JDialog historyDialog;
-    private JFrame historyFrame;
 
     public View() {
-        frame = new JFrame();
+        JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        panel = new JPanel();
+        JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         backButton = new BackForwardButton("back.png");
         forwardButton = new BackForwardButton("forward.png");
         historyButton = new JButton();
-        historyButton.setFont(historyButton.getFont().deriveFont(13.0f));
         historyButton.setText("Historik");
         field = new JTextField();
         editorPane = new JEditorPane();
         editorPane.setEditable(false);
-        editorScrollPane = new JScrollPane(editorPane);
+        JScrollPane editorScrollPane = new JScrollPane(editorPane);
         editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         editorScrollPane.setPreferredSize(screenSize);
@@ -51,19 +45,11 @@ public class View {
 
         list.setVisibleRowCount(20);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        historyFrame = new JFrame("Historik");
+        JFrame historyFrame = new JFrame("Historik");
         historyFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         historyFrame.add(scroller);
         historyFrame.setVisible(true);
         historyFrame.pack();
-    }
-
-    public JOptionPane getHistoryPane() {
-        return historyPane;
-    }
-
-    public JDialog getHistoryDialog() {
-        return historyDialog;
     }
 
     public BackForwardButton getBackButton() {
@@ -84,6 +70,10 @@ public class View {
 
     public JEditorPane getEditorPane() {
         return editorPane;
+    }
+
+    public JDialog getHistoryDialog() {
+        return historyDialog;
     }
 
     public static void main(String[] args) {
