@@ -84,6 +84,7 @@ public class Controller {
 
     public class BackButtonListener implements ActionListener {
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             openURL(backArray.removeLast().toString(), TYPE_BACKWARD);
         }
@@ -91,6 +92,7 @@ public class Controller {
 
     public class ForwardButtonListener implements ActionListener {
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             openURL(forwardArray.removeFirst().toString(), TYPE_FORWARD);
         }
@@ -98,6 +100,7 @@ public class Controller {
 
     public class HistoryButtonListener implements ActionListener {
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             list.setListData(historyArray.toArray(new String[historyArray.size()]));
             view.createHistoryDialog(list);
@@ -106,6 +109,7 @@ public class Controller {
 
     public class TextFieldListener implements ActionListener {
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextField field = (JTextField) e.getSource();
             openURL(field.getText(), TYPE_NEW);
@@ -115,6 +119,7 @@ public class Controller {
 
     public class HistoryListListener implements ListSelectionListener {
 
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             //Utan if-satsa => vi får event två gånger
             if (!e.getValueIsAdjusting()) {
@@ -127,6 +132,7 @@ public class Controller {
 
     public class LinkListener implements HyperlinkListener {
 
+        @Override
         public void hyperlinkUpdate(HyperlinkEvent e) {
             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                 openURL(e.getURL().toString(), TYPE_NEW);
