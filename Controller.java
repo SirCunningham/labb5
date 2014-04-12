@@ -34,7 +34,7 @@ public class Controller {
         openURL("https://duckduckgo.com/lite", TYPE_START);
     }
 
-    public void openURL(String str, int type) {
+    public final void openURL(String str, int type) {
         try {
             if (str != null) {
                 URL url = new URL(str);
@@ -143,6 +143,5 @@ public class Controller {
 
     public static void main(String[] args) {
         new Controller(new View());
-    
     }
 }

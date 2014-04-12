@@ -14,5 +14,4 @@ public class NavigationButton extends JButton {
             e.printStackTrace();
         }
     }
-
 }
